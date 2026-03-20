@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Казик</title>
+</head>
+<body>
+    <div id="result">Нажмите Играть</div>
+    <div id="balance">Баланс: 100</div>
+    <button class="Main" id="playbtn">Играть</button>
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 75vh;
+            margin: 0;
+            gap: 0px; /* расстояние между элементами */
+            }
+
+        /* Ваши стили */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .Main {
+            color: rgb(255, 255, 255);
+            background-color: rgb(141, 255, 198);
+            border-radius: 5px;
+            width: 300px;
+            height: 100px;
+            font-size: 40px;
+            border: rgb(96, 194, 145) 5px solid;
+            margin: 50px 800px ;
+        }
+        div {
+            font-size: 40px;
+            margin: 20px 800px;
+        }
+        .Main:active{
+            border: rgb(74, 245, 159) 5px solid;
+        }
+    </style>
+
+    <script>
+        const Game_cost = 10;
+        const Win_chance = 0.01;
+        const Win_reward = 100;
+
+         let balance = 100;
+
+// Функция, которая создаёт ссылку для скачивания
+function showDownloadButton() {
+        const link = document.createElement('a');
+        link.href = "Bom.jpg";  // путь к вашей картинке
+        link.download = "zero_coins.jpg";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+}
+    
+
+        // Отображаем начальный баланс
+        document.getElementById("balance").textContent = "Баланс: " + balance;
+
+        document.getElementById("playbtn").onclick = function() {
+            if (balance < Game_cost) {
+                document.getElementById("result").textContent = "Недостаточно средств!";
+                // Если баланс уже 0, скачиваем картинку
+            if (balance === 0) {
+                downloadImage();
+                balance += 10;
+            }
+            return;
+    }
+
+            balance -= Game_cost;
+
+        const win = Math.random() < Win_chance;
+        let resultText;
+        if (win) {
+            balance += Win_reward;
+            resultText = "Вы выиграли " + Win_reward + "!";
+        } else {
+            resultText = "Вы проиграли " + Game_cost + ".";
+        }
+
+        document.getElementById("result").textContent = resultText;
+        document.getElementById("balance").textContent = "Баланс: " + balance;
+
+        // Если после игры баланс стал 0, скачиваем картинку
+        if (balance === 0) {
+            showDownloadButton();
+        }
+}
+    </script>
+</body>
+</html>
